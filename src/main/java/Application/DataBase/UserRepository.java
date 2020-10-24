@@ -36,8 +36,7 @@ public class UserRepository {
     public void getBugsWhichThisUserFound(User user)
         throws SQLException {
         Set<Integer> userBugs = jdbc.query(
-                "SELECT * FROM user_to_bugs WHERE user_id=" + user.getUserId() +
-                " INNER JOIN bugs ON" + "user_to_bugs.bug_id = bugs.id", this::rowsToSet);
+                "SELECT * FROM user_to_bugs WHERE user_id=" + user.getUserId(), this::rowsToSet);
         user.setBugs(userBugs);
     }
 
@@ -51,93 +50,8 @@ public class UserRepository {
         jdbc.update("INSERT INTO user_to_bugs (user_id, bug_id) VALUES ('" + bug.getUser() + "', '" + bugId + "')");
     }
 
-    public Set<Integer> getAllBugs()
-            throws SQLException {
-        return getBugsByParam("", "");
-    }
-
-    public Set<Integer> getAllCheckedBugs()
-            throws SQLException {
-        return getCheckedBugs("");
-    }
-
-    public Set<Integer> getAllUncheckedBugs()
-            throws SQLException {
-        return getUncheckedBugs("");
-    }
-
-    public Set<Integer> getCheckedBugsByBugName(String bugName)
-            throws SQLException {
-        return getCheckedBugs("bugName = " + bugName);
-    }
-
-    public Set<Integer> getCheckedBugsByTestedSystem(String testedSystem)
-            throws SQLException {
-        return getCheckedBugs("testedSystem = " + testedSystem);
-    }
-
-    public Set<Integer> getCheckedBugsByBetaVersion(String betaVersion)
-            throws SQLException {
-        return getCheckedBugs("betaVersion = " + betaVersion);
-    }
-
-    public Set<Integer> getCheckedBugsByOSModel(String OSModel)
-            throws SQLException {
-        return getCheckedBugs("OSModel = " + OSModel);
-    }
-
-    public Set<Integer> getCheckedBugsByDate(String date)
-            throws SQLException {
-        return getCheckedBugs("date = " + date);
-    }
-
-    public Set<Integer> getUncheckedBugsByBugName(String bugName)
-            throws SQLException {
-        return getUncheckedBugs("bugName = " + bugName);
-    }
-
-    public Set<Integer> getUncheckedBugsByTestedSystem(String testedSystem)
-            throws SQLException {
-        return getUncheckedBugs("testedSystem = " + testedSystem);
-    }
-
-    public Set<Integer> getUncheckedBugsByBetaVersion(String betaVersion)
-            throws SQLException {
-        return getUncheckedBugs("betaVersion = " + betaVersion);
-    }
-
-    public Set<Integer> getUncheckedBugsByOSModel(String OSModel)
-            throws SQLException {
-        return getUncheckedBugs("OSModel = " + OSModel);
-    }
-
-    public Set<Integer> getUncheckedBugsByDate(String date)
-            throws SQLException {
-        return getUncheckedBugs("date = " + date);
-    }
-
-    private Set<Integer> getUncheckedBugs(String param)
-            throws SQLException {
-        return getBugsByParam(param, "1");
-    }
-
-    private Set<Integer> getCheckedBugs(String param)
-            throws SQLException {
-        return getBugsByParam(param, "0");
-    }
-
-    private Set<Integer> getBugsByParam(String param, String status)
-            throws SQLException {
-
-        String sqlQuery = "SELECT * FROM bugs";
-        if (!param.isEmpty() && !status.isEmpty())
-            sqlQuery += "WHERE " + param + " AND status = " + status;
-        else if (param.isEmpty() && !status.isEmpty())
-            sqlQuery += "WHERE status = " + status;
-        else if (!param.isEmpty())
-            sqlQuery += "WHERE " + param;
-
-        return jdbc.query(sqlQuery, this::rowsToSet);
+    public void updateUserWallet(User user) {
+        jdbc.update("UPDATE users SET money = " + user.getMoney() + " WHERE id = " + user.getUserId());
     }
 
     private User rowToUser(ResultSet resultSet, int rowNum)
@@ -160,7 +74,7 @@ public class UserRepository {
             throws SQLException {
         Set<Integer> set = new HashSet<>();
         do {
-            set.add(resultSet.getInt("id"));
+            set.add(resultSet.getInt("bug_id"));
         } while (resultSet.next());
         return set;
     }

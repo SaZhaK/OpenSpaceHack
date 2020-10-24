@@ -37,6 +37,19 @@ public class UserService {
         return null;
     }
 
+    public void getBugsWhichThisUserFound(User user) {
+        if (user == null) {
+            logger.info("getBugsWhichThisUserFound: user = null");
+            return;
+        }
+        try {
+            userRepository.getBugsWhichThisUserFound(user);
+        } catch (DataAccessException | SQLException e) {
+            String msg = "error in getBugsWhichThisUserFound: " + e.getMessage() + "\ncaused by: " + e.getCause();
+            logger.info(msg);
+        }
+    }
+
     public void createNewUser(User user) {
         if (user == null) {
             logger.info("insertNoteIntoUsers: user = null");
@@ -75,150 +88,6 @@ public class UserService {
             String msg = "error in addReportedBug2DataBase: " + e.getMessage() + "\ncaused by: " + e.getCause();
             logger.info(msg);
         }
-    }
-
-    public Set<Integer> getAllBugs()
-            throws SQLException {
-        try {
-            return userRepository.getAllBugs();
-        } catch (DataAccessException | SQLException e) {
-            String msg = "error in getAllBugs: " + e.getMessage() + "\ncaused by: " + e.getCause();
-            logger.info(msg);
-        }
-        return null;
-    }
-
-    public Set<Integer> getAllCheckedBugs()
-            throws SQLException {
-        try {
-            return userRepository.getAllCheckedBugs();
-        } catch (DataAccessException | SQLException e) {
-            String msg = "error in getAllCheckedBugs: " + e.getMessage() + "\ncaused by: " + e.getCause();
-            logger.info(msg);
-        }
-        return null;
-    }
-
-    public Set<Integer> getAllUncheckedBugs()
-            throws SQLException {
-        try {
-            return userRepository.getAllUncheckedBugs();
-        } catch (DataAccessException | SQLException e) {
-            String msg = "error in getAllUncheckedBugs: " + e.getMessage() + "\ncaused by: " + e.getCause();
-            logger.info(msg);
-        }
-        return null;
-    }
-
-    public Set<Integer> getCheckedBugsByBugName(String bugName)
-            throws SQLException {
-        try {
-            return userRepository.getCheckedBugsByBugName(bugName);
-        } catch (DataAccessException | SQLException e) {
-            String msg = "error in getCheckedBugsByBugName: " + e.getMessage() + "\ncaused by: " + e.getCause();
-            logger.info(msg);
-        }
-        return null;
-    }
-
-    public Set<Integer> getCheckedBugsByTestedSystem(String testedSystem)
-            throws SQLException {
-        try {
-            return userRepository.getCheckedBugsByTestedSystem(testedSystem);
-        } catch (DataAccessException | SQLException e) {
-            String msg = "error in getCheckedBugsByTestedSystem: " + e.getMessage() + "\ncaused by: " + e.getCause();
-            logger.info(msg);
-        }
-        return null;
-    }
-
-    public Set<Integer> getCheckedBugsByBetaVersion(String betaVersion)
-            throws SQLException {
-        try {
-            return userRepository.getCheckedBugsByBetaVersion(betaVersion);
-        } catch (DataAccessException | SQLException e) {
-            String msg = "error in getCheckedBugsByBetaVersion: " + e.getMessage() + "\ncaused by: " + e.getCause();
-            logger.info(msg);
-        }
-        return null;
-    }
-
-    public Set<Integer> getCheckedBugsByOSModel(String OSModel)
-            throws SQLException {
-        try {
-            return userRepository.getCheckedBugsByOSModel(OSModel);
-        } catch (DataAccessException | SQLException e) {
-            String msg = "error in getCheckedBugsByOSModel: " + e.getMessage() + "\ncaused by: " + e.getCause();
-            logger.info(msg);
-        }
-        return null;
-    }
-
-    public Set<Integer> getCheckedBugsByDate(String date)
-            throws SQLException {
-        try {
-            return userRepository.getCheckedBugsByDate(date);
-        } catch (DataAccessException | SQLException e) {
-            String msg = "error in getCheckedBugsByDate: " + e.getMessage() + "\ncaused by: " + e.getCause();
-            logger.info(msg);
-        }
-        return null;
-    }
-
-    //
-    public Set<Integer> getUncheckedBugsByBugName(String bugName)
-            throws SQLException {
-        try {
-            return userRepository.getUncheckedBugsByBugName(bugName);
-        } catch (DataAccessException | SQLException e) {
-            String msg = "error in getUncheckedBugsByBugName: " + e.getMessage() + "\ncaused by: " + e.getCause();
-            logger.info(msg);
-        }
-        return null;
-    }
-
-    public Set<Integer> getUncheckedBugsByTestedSystem(String testedSystem)
-            throws SQLException {
-        try {
-            return userRepository.getUncheckedBugsByTestedSystem(testedSystem);
-        } catch (DataAccessException | SQLException e) {
-            String msg = "error in getUncheckedBugsByTestedSystem: " + e.getMessage() + "\ncaused by: " + e.getCause();
-            logger.info(msg);
-        }
-        return null;
-    }
-
-    public Set<Integer> getUncheckedBugsByBetaVersion(String betaVersion)
-            throws SQLException {
-        try {
-            return userRepository.getUncheckedBugsByBetaVersion(betaVersion);
-        } catch (DataAccessException | SQLException e) {
-            String msg = "error in getUncheckedBugsByBetaVersion: " + e.getMessage() + "\ncaused by: " + e.getCause();
-            logger.info(msg);
-        }
-        return null;
-    }
-
-    public Set<Integer> getUncheckedBugsByOSModel(String OSModel)
-            throws SQLException {
-        try {
-            return userRepository.getUncheckedBugsByOSModel(OSModel);
-        } catch (DataAccessException | SQLException e) {
-            String msg = "error in getUncheckedBugsByOSModel: " + e.getMessage() + "\ncaused by: " + e.getCause();
-            logger.info(msg);
-        }
-        return null;
-    }
-
-    public Set<Integer> getUncheckedBugsByDate(String date)
-            throws SQLException {
-        try {
-            return userRepository.getUncheckedBugsByDate(date);
-        } catch (DataAccessException | SQLException e) {
-            String msg = "error in getUncheckedBugsByDate: " + e.getMessage() + "\ncaused by: " + e.getCause();
-            logger.info(msg);
-        }
-        return null;
     }
 
 }

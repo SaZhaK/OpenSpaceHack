@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashSet;
 import java.util.Set;
 
 @Repository
@@ -22,24 +23,112 @@ public class BugRepository {
     }
 
     public Bug getBugById(int bugId) throws SQLException {
-        return jdbc.query("SELECT * FROM bugs WHERE id = " + bugId, this::rowToUser);
+        return jdbc.query("SELECT * FROM bugs WHERE id = " + bugId, this::rowToBug);
     }
 
-    public String getUsernameByBug(Bug bug)
+    public User getUserByBug(Bug bug)
             throws SQLException {
-        return jdbc.query("SELECT * FROM user_to_bugs WHERE bug_id=" + bug.getBugId() +
-                        " INNER JOIN users ON" + "user_to_bugs.user_id = users.id", this::rowsToUsername);
+        return jdbc.query("SELECT * FROM user_to_bugs WHERE bug_id=" + bug.getBugId(), this::rowsToUser);
     }
 
 
-    private String rowsToUsername(ResultSet resultSet) throws SQLException {
+    public Set<Integer> getAllBugs()
+            throws SQLException {
+        return getBugsByParam("", "");
+    }
+
+    public Set<Integer> getAllCheckedBugs()
+            throws SQLException {
+        return getCheckedBugs("");
+    }
+
+    public Set<Integer> getAllUncheckedBugs()
+            throws SQLException {
+        return getUncheckedBugs("");
+    }
+
+    public Set<Integer> getCheckedBugsByBugName(String bugName)
+            throws SQLException {
+        return getCheckedBugs("bugName = " + bugName);
+    }
+
+    public Set<Integer> getCheckedBugsByTestedSystem(String testedSystem)
+            throws SQLException {
+        return getCheckedBugs("testedSystem = " + testedSystem);
+    }
+
+    public Set<Integer> getCheckedBugsByBetaVersion(String betaVersion)
+            throws SQLException {
+        return getCheckedBugs("betaVersion = " + betaVersion);
+    }
+
+    public Set<Integer> getCheckedBugsByOSModel(String OSModel)
+            throws SQLException {
+        return getCheckedBugs("OSModel = " + OSModel);
+    }
+
+    public Set<Integer> getCheckedBugsByDate(String date)
+            throws SQLException {
+        return getCheckedBugs("date = " + date);
+    }
+
+    public Set<Integer> getUncheckedBugsByBugName(String bugName)
+            throws SQLException {
+        return getUncheckedBugs("bugName = " + bugName);
+    }
+
+    public Set<Integer> getUncheckedBugsByTestedSystem(String testedSystem)
+            throws SQLException {
+        return getUncheckedBugs("testedSystem = " + testedSystem);
+    }
+
+    public Set<Integer> getUncheckedBugsByBetaVersion(String betaVersion)
+            throws SQLException {
+        return getUncheckedBugs("betaVersion = " + betaVersion);
+    }
+
+    public Set<Integer> getUncheckedBugsByOSModel(String OSModel)
+            throws SQLException {
+        return getUncheckedBugs("OSModel = " + OSModel);
+    }
+
+    public Set<Integer> getUncheckedBugsByDate(String date)
+            throws SQLException {
+        return getUncheckedBugs("date = " + date);
+    }
+
+    private Set<Integer> getUncheckedBugs(String param)
+            throws SQLException {
+        return getBugsByParam(param, "1");
+    }
+
+    private Set<Integer> getCheckedBugs(String param)
+            throws SQLException {
+        return getBugsByParam(param, "0");
+    }
+
+    private Set<Integer> getBugsByParam(String param, String status)
+            throws SQLException {
+
+        String sqlQuery = "SELECT * FROM bugs";
+        if (!param.isEmpty() && !status.isEmpty())
+            sqlQuery += "WHERE " + param + " AND status = " + status;
+        else if (param.isEmpty() && !status.isEmpty())
+            sqlQuery += "WHERE status = " + status;
+        else if (!param.isEmpty())
+            sqlQuery += "WHERE " + param;
+
+        return jdbc.query(sqlQuery, this::rowsToSet);
+    }
+
+    private User rowsToUser(ResultSet resultSet) throws SQLException {
         if (resultSet.next()) {
-            return resultSet.getString("username");
+            return new UserService().getUserByUsername(resultSet.getString("username"));
         }
         return null;
     }
 
-    private Bug rowToUser(ResultSet resultSet) throws SQLException {
+    private Bug rowToBug(ResultSet resultSet) throws SQLException {
         if (resultSet.next()) {
             String[] tmp = resultSet.getString("screenshot").split(", ");
             byte[] img = new byte[tmp.length];
@@ -55,12 +144,21 @@ public class BugRepository {
             bug.setOSModel(resultSet.getString("OSModel"));
             bug.setTestedSystem(resultSet.getString("testedSystem"));
             bug.setScreenshot(img);
-            bug.setUser(new UserService().getUserByUsername(getUsernameByBug(bug)));
+            bug.setUser(getUserByBug(bug));
             bug.setDate(resultSet.getDate("date"));
             bug.setTime(resultSet.getTime("time").toLocalTime());
 
             return bug;
         }
         return null;
+    }
+
+    private Set<Integer> rowsToSet(ResultSet resultSet)
+            throws SQLException {
+        Set<Integer> set = new HashSet<>();
+        do {
+            set.add(resultSet.getInt("id"));
+        } while (resultSet.next());
+        return set;
     }
 }
