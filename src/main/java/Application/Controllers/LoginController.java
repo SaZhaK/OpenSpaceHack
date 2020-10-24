@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 @Controller
 public class LoginController {
@@ -24,13 +25,21 @@ public class LoginController {
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     @ResponseBody
-    public void getLogin(HttpServletRequest request, HttpServletResponse response) {}
+    public void getLogin(HttpServletRequest request, HttpServletResponse response) {
+    }
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     @ResponseBody
-    public String postLogin(HttpServletRequest request, HttpServletResponse response) {
-        String username = request.getHeader("username");
-        String password = request.getHeader("password");
+    public String postLogin(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        StringBuilder data = new StringBuilder();
+        String line;
+        while ((line = request.getReader().readLine()) != null) {
+            data.append(line);
+        }
+        JSONObject jsonObject = new JSONObject(data.toString());
+
+        String username = jsonObject.get("username").toString();
+        String password = jsonObject.get("password").toString();
 
         User user = userService.getUserByUsername(username);
 
@@ -69,15 +78,22 @@ public class LoginController {
 
     @RequestMapping(value = "/signup", method = RequestMethod.POST)
     @ResponseBody
-    public String signup(HttpServletRequest request, HttpServletResponse response) {
-        int userId = request.getIntHeader("userId");
-        String username = request.getHeader("username");
-        String password = request.getHeader("password");
-        String role = request.getHeader("role");
-        String firstName = request.getHeader("first_name");
-        String secondName = request.getHeader("second_name");
-        String lastName = request.getHeader("last_name");
-        String petName = request.getHeader("pet_name");
+    public String signup(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        StringBuilder data = new StringBuilder();
+        String line;
+        while ((line = request.getReader().readLine()) != null) {
+            data.append(line);
+        }
+        JSONObject jsonObject = new JSONObject(data.toString());
+
+        int userId = Integer.parseInt(jsonObject.get("userId").toString());
+        String username = jsonObject.get("userId").toString();
+        String password = jsonObject.get("userId").toString();
+        String role = jsonObject.get("userId").toString();
+        String firstName = jsonObject.get("userId").toString();
+        String secondName = jsonObject.get("userId").toString();
+        String lastName = jsonObject.get("userId").toString();
+        String petName = jsonObject.get("userId").toString();
 
         User user = new User(userId, username, password, role, firstName, secondName, lastName, 100);
         Pet pet = new Pet(userId, petName, 1);

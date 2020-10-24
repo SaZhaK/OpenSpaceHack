@@ -16,10 +16,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Controller
@@ -30,15 +29,22 @@ public class BugController {
     BugService bugService;
 
     @RequestMapping(value = "/report", method = RequestMethod.POST)
-    public void reportBug(HttpServletRequest request, HttpServletResponse response) {
-        Bug bug = new Bug();
+    @ResponseBody
+    public String reportBug(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        StringBuilder data = new StringBuilder();
+        String line;
+        while ((line = request.getReader().readLine()) != null) {
+            data.append(line);
+        }
+        JSONObject jsonObject = new JSONObject(data.toString());
 
-        String testedSystem = request.getHeader("testedSystem");
-        String username = request.getHeader("username");
-        String bugName = request.getHeader("bugName");
-        String betaVersion = request.getHeader("betaVersion");
-        String OSModel = request.getHeader("OSModel");
-        String description = request.getHeader("description");
+        Bug bug = new Bug();
+        String testedSystem = jsonObject.get("testedSystem").toString();
+        String username = jsonObject.get("username").toString();
+        String bugName = jsonObject.get("bug_name").toString();
+        String betaVersion = jsonObject.get("beta_version").toString();
+        String OSModel = jsonObject.get("os_model").toString();
+        String description = jsonObject.get("description").toString();
 
         User user = userService.getUserByUsername(username);
         user.addMoney();
@@ -55,6 +61,8 @@ public class BugController {
         //Date date;
         //LocalTime time;
         //byte[] screenshot;
+
+        return jsonObject.toString();
     }
 
 
@@ -104,14 +112,13 @@ public class BugController {
 
             for (Integer id : allBugs) {
                 Bug bug = bugService.getBugById(id);
-                if (currentUser != null && verified != null &&
-                        bug.getUser().getUserId() == currentUser.getUserId() && bug.getStatus() == 0) {
+                if (user != null && verified != null && bug.getUser().getUserId() == currentUser.getUserId() && bug.getStatus() == 0) {
                     bugs.add(id);
-                } else if (currentUser == null && verified != null && bug.getStatus() == 0) {
+                } else if (user == null && verified != null && bug.getStatus() == 0) {
                     bugs.add(id);
-                } else if (currentUser != null && verified == null && bug.getUser().getUserId() == currentUser.getUserId()) {
+                } else if (user != null && verified == null && bug.getUser().getUserId() == currentUser.getUserId()) {
                     bugs.add(id);
-                } else if (currentUser == null && verified != null) {
+                } else if (user == null && verified != null) {
                     bugs.add(id);
                 }
             }
