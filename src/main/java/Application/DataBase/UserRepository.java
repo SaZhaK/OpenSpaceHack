@@ -20,9 +20,8 @@ public class UserRepository {
         this.jdbc = jdbc;
     }
 
-    public User getUserInfoFromDataBase(String username)
-        throws SQLException {
-        return jdbc.query("SELECT * FROM users WHERE username='" + username + "'", this::rowToUser);
+    public User getUserInfoFromDataBase(String username) throws SQLException {
+        return jdbc.query("SELECT * FROM users WHERE username='" + username + "'", this::rowToUser).get(0);
     }
 
     public void insertNoteIntoUsers(User user) {
@@ -45,7 +44,7 @@ public class UserRepository {
         return jdbc.query("SELECT * FROM bugs WHERE status=1", this::rowsToSet);
     }
 
-    private User rowToUser(ResultSet resultSet)
+    private User rowToUser(ResultSet resultSet, int rowNum)
             throws SQLException {
         int userId = resultSet.getInt("id");
         String username = resultSet.getString("username");

@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Enumeration;
 
 @Controller
 public class LoginController {
@@ -21,10 +20,8 @@ public class LoginController {
 
     @GetMapping("/login")
     public void getLogin(HttpServletRequest request, HttpServletResponse response) {
-        Enumeration<String> headerNames = request.getHeaderNames();
-
-        String username = request.getHeader(headerNames.nextElement());
-        String password = request.getHeader(headerNames.nextElement());
+        String username = request.getHeader("username");
+        String password = request.getHeader("password");
 
         User user = userService.getUserByUsername(username);
 

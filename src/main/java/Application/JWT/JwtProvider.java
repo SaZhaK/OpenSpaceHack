@@ -12,7 +12,7 @@ import java.util.Date;
 @Component
 public class JwtProvider {
     private static Logger logger = LoggerFactory.getLogger(JwtProvider.class);
-    private static final String jwtSecret = "secret";
+    private static final String JWT_SECRET = "SECRET";
 
     public static String generateToken(String login, String password) {
         Date date = Date.from(LocalDate.now().plusDays(15).atStartOfDay(ZoneId.systemDefault()).toInstant());
@@ -20,13 +20,13 @@ public class JwtProvider {
                 .setSubject(login)
                 .setSubject(password)
                 .setExpiration(date)
-                .signWith(SignatureAlgorithm.HS512, jwtSecret)
+                .signWith(SignatureAlgorithm.HS512, JWT_SECRET)
                 .compact();
     }
 
     public static boolean validateToken(String token) {
         try {
-            Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token);
+            Jwts.parser().setSigningKey(JWT_SECRET).parseClaimsJws(token);
             return true;
         } catch (ExpiredJwtException expEx) {
             logger.error("Token expired");
@@ -43,7 +43,21 @@ public class JwtProvider {
     }
 
     public static String getLoginFromToken(String token) {
-        Claims claims = Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody();
+        Claims claims = Jwts.parser().setSigningKey(JWT_SECRET).parseClaimsJws(token).getBody();
         return claims.getSubject();
+    }
+
+    public static Claims getAllClaimsFromToken(String token) {
+        Claims claims;
+        try {
+            claims = Jwts.parser()
+                    .setSigningKey(JWT_SECRET)
+                    .parseClaimsJws(token)
+                    .getBody();
+        } catch (Exception e) {
+            logger.error("Could not get all claims Token from passed token");
+            claims = null;
+        }
+        return claims;
     }
 }
