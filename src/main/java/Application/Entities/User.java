@@ -16,6 +16,7 @@ public class User {
     private String secondName;
     private String lastName;
     private Set<Integer> bugs;
+    private int money;
 
     public User(int userId,
                 String username,

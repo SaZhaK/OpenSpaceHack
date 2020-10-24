@@ -37,6 +37,7 @@ public class UserController {
             response.setHeader("first_name", user.getFirstName());
             response.setHeader("second_name", user.getSecondName());
             response.setHeader("last_name", user.getLastName());
+            response.setHeader("money", String.valueOf(user.getMoney()));
             response.setHeader("bugs", user.getBugs().toString());
 
             Pet pet = petService.getPet(user.getUserId());
