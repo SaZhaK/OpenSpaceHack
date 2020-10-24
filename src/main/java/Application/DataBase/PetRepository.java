@@ -25,9 +25,9 @@ public class PetRepository {
     }
 
     public void insertNoteIntoPets(Pet pet) {
-        jdbc.update("INSERT INTO pets (id, owner, name, rank, hat, jacket) VALUES ("+
-                pet.getPetId() + ", " + pet.getOwnerId() + ", " + pet.getPetName() + ", " +
-                pet.getPetRank() + ", " + pet.getHatId() + ", " + pet.getJacketId() + ")");
+        jdbc.update("INSERT INTO pets (owner, name, rank, hat, jacket) VALUES ("+
+                pet.getOwnerId() + ", " + pet.getPetName() + ", " + pet.getPetRank() +
+                ", " + pet.getHatId() + ", " + pet.getJacketId() + ")");
     }
 
     private Pet rowToPet(ResultSet resultSet)

@@ -41,7 +41,7 @@ public class User {
     }
 
     public void addMoney() {
-        this.money += moneyPerBug;
+        this.money += 2 * moneyPerBug;
         new UserService().updateUserWallet(this);
     }
 
