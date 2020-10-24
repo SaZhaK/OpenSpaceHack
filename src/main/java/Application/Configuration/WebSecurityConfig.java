@@ -28,6 +28,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/console/**").permitAll()
                 .antMatchers("/login/**").permitAll()
                 .antMatchers("/h2/**").permitAll()
+                .antMatchers("/me/**").permitAll()
+                .antMatchers("/report/**").permitAll()
+                .antMatchers("/reports/**").permitAll()
+                .antMatchers("/signup/**").permitAll()
                 .antMatchers("/auth/**").permitAll()
                 .antMatchers("/app/**").permitAll()
                 .antMatchers("/ws/**").permitAll()
@@ -36,16 +40,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/images/**").permitAll()
                 .antMatchers("/upload/**").permitAll()
                 .antMatchers("/", "/resources/**").permitAll()
-                .antMatchers("/**").hasRole("ADMIN")
-                .and()
-                .formLogin()
-                .loginPage("/login")
-                .defaultSuccessUrl("/")
-                .permitAll()
-                .and()
-                .logout()
-                .permitAll()
-                .logoutSuccessUrl("/");
+                .antMatchers("/**").hasRole("ADMIN");
+//                .and()
+//                .formLogin()
+//                .loginPage("/login")
+//                .defaultSuccessUrl("/")
+//                .permitAll()
+//                .and()
+//                .logout()
+//                .permitAll()
+//                .logoutSuccessUrl("/");
 
         http.headers().frameOptions().disable();
 

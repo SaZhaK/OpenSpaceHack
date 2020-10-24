@@ -32,6 +32,9 @@ public class UserController {
         User user = userService.getUserByUsername(username);
         JSONObject response = new JSONObject();
 
+        System.out.println(token);
+        System.out.println(user.getUsername());
+
         if (user != null && JwtProvider.validateToken(token)) {
             response.put("id", String.valueOf(user.getUserId()));
             response.put("username", user.getUsername());
