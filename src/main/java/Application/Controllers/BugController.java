@@ -12,7 +12,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalTime;
@@ -20,7 +19,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
-@CrossOrigin(origins = "*", allowedHeaders = "*", exposedHeaders="Authorization")
+@CrossOrigin(origins = "*", allowedHeaders = "*", exposedHeaders = "Authorization")
 @Controller
 public class BugController {
     @Autowired
@@ -30,41 +29,51 @@ public class BugController {
 
     @RequestMapping(value = "/report", method = RequestMethod.POST)
     @ResponseBody
-    public String reportBug(HttpServletRequest request, HttpServletResponse response) throws IOException, SQLException {
-        StringBuilder data = new StringBuilder();
-        String line;
-        while ((line = request.getReader().readLine()) != null) {
-            data.append(line);
+    public String reportBug(HttpServletRequest request) throws IOException {
+        String token = request.getHeader("Authorization").substring(7);
+
+        JSONObject result = new JSONObject();
+
+        if (JwtProvider.validateToken(token)) {
+            StringBuilder data = new StringBuilder();
+            String line;
+            while ((line = request.getReader().readLine()) != null) {
+                data.append(line);
+            }
+            result = new JSONObject(data.toString());
+
+            Bug bug = new Bug();
+            String testedSystem = result.get("testedSystem").toString();
+            String username = result.get("username").toString();
+            String bugName = result.get("bug_name").toString();
+            String betaVersion = result.get("beta_version").toString();
+            String OSModel = result.get("os_model").toString();
+            String description = result.get("description").toString();
+            String date = result.get("date").toString();
+            String time = result.get("time").toString();
+            String screenshot = result.get("screenshot").toString();
+
+            User user = userService.getUserByUsername(username);
+            user.addMoney();
+            userService.updateUserWallet(user);
+
+            bug.setTestedSystem(testedSystem);
+            bug.setUser(user);
+            bug.setBugName(bugName);
+            bug.setBetaVersion(betaVersion);
+            bug.setOSModel(OSModel);
+            bug.setDescription(description);
+            bug.setDate(new Date(date));
+            bug.setTime(LocalTime.parse(time));
+            bug.setScreenshot(screenshot.getBytes());
+
+            userService.addReportedBug2DataBase(bug);
+            int bugId = bugService.getLastBugReportId();
+            bug.setBugId(bugId);
+            result.put("id", bugId);
         }
-        JSONObject jsonObject = new JSONObject(data.toString());
 
-        Bug bug = new Bug();
-        String testedSystem = jsonObject.get("testedSystem").toString();
-        String username = jsonObject.get("username").toString();
-        String bugName = jsonObject.get("bug_name").toString();
-        String betaVersion = jsonObject.get("beta_version").toString();
-        String OSModel = jsonObject.get("os_model").toString();
-        String description = jsonObject.get("description").toString();
-        String date = jsonObject.get("date").toString();
-        String time = jsonObject.get("time").toString();
-        String screenshot = jsonObject.get("screenshot").toString();
-
-        User user = userService.getUserByUsername(username);
-        user.addMoney();
-        userService.updateUserWallet(user);
-        userService.addReportedBug2DataBase(bug);
-
-        bug.setTestedSystem(testedSystem);
-        bug.setUser(user);
-        bug.setBugName(bugName);
-        bug.setBetaVersion(betaVersion);
-        bug.setOSModel(OSModel);
-        bug.setDescription(description);
-        bug.setDate(new Date(date));
-        bug.setTime(LocalTime.parse(time));
-        bug.setScreenshot(screenshot.getBytes());
-
-        return jsonObject.toString();
+        return result.toString();
     }
 
 
