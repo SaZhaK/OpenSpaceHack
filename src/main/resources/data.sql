@@ -26,3 +26,11 @@ INSERT INTO items (type, name, cost) VALUES ('leg', 'standartLeg', 0);
 INSERT INTO items (type, name, cost) VALUES ('leg', 'skeletonLeg', 50000);
 INSERT INTO items (type, name, cost) VALUES ('backpack', 'standartBackpack', 0);
 INSERT INTO items (type, name, cost) VALUES ('backpack', 'skeletonBackpack', 50000);
+INSERT INTO bugs (
+    bugName, description, testedSystem, betaVersion, OSModel, screenshot, date,  time, status)
+    VALUES ('crash system', 'all system crash', 'website', '2.0', 'Windows XP', 'screenshot',
+    '2001-09-11', '00:00:00', 1);
+INSERT INTO bugs (
+    bugName, description, testedSystem, betaVersion, OSModel, screenshot,  date,  time, status)
+    VALUES ('button bug', 'wrong color of button', 'website', '3.0', 'MacOS', 'screenshot',
+    '2020-02-20', '00:00:00', 0);
