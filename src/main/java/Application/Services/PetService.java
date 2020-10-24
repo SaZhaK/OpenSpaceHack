@@ -2,6 +2,7 @@ package Application.Services;
 
 import Application.DataBase.PetRepository;
 import Application.Entities.Pet;
+import Application.Entities.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,15 +19,15 @@ public class PetService {
     @Autowired
     PetRepository petRepository;
 
-    public Pet getPet(int ownerId) {
-        if (ownerId <= 0) {
-            logger.info("getPetInfoFromDataBase: ownerId = " + ownerId);
+    public Pet getUserPet(User user) {
+        if (user == null) {
+            logger.info("getUserPet: user = null");
             return null;
         }
         try {
-            return petRepository.getPetInfoFromDataBase(ownerId);
+            return petRepository.getUserPet(user);
         } catch (DataAccessException | SQLException e) {
-            String msg = "error in getPetInfoFromDataBase: " + e.getMessage() + "\ncaused by: " + e.getCause();
+            String msg = "error in getUserPet: " + e.getMessage() + "\ncaused by: " + e.getCause();
             logger.info(msg);
         }
         return null;
@@ -34,13 +35,13 @@ public class PetService {
 
     public void createNewPet(Pet pet) {
         if (pet == null) {
-            logger.info("insertNoteIntoPets: pet=null");
+            logger.info("createNewPet: pet=null");
             return;
         }
         try {
-            petRepository.insertNoteIntoPets(pet);
+            petRepository.createNewPet(pet);
         } catch (DataAccessException e) {
-            String msg = "error in insertNoteIntoPets: " + e.getMessage() + "\ncaused by: " + e.getCause();
+            String msg = "error in createNewPet: " + e.getMessage() + "\ncaused by: " + e.getCause();
             logger.info(msg);
         }
     }

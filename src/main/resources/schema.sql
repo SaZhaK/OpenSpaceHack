@@ -41,6 +41,7 @@ create table if not exists pets(
   name   varchar(256),
   rank   integer,
   face integer,
+  mouth integer,
   body integer,
   leg integer,
   hat integer,

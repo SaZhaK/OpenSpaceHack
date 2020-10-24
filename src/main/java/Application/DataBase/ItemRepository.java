@@ -39,6 +39,16 @@ public class ItemRepository {
                 + ", " + item.getItemId() + ")");
     }
 
+    public Item getItemById(int itemId) throws SQLException {
+        return jdbc.query("SELECT * FROM items WHERE id = " + itemId, this::rowToItem);
+    }
+
+    private Item rowToItem(ResultSet resultSet) throws SQLException {
+        if (resultSet.next())
+            return createItem(resultSet);
+        return new Item();
+    }
+
     private List<Item> getItems(String type) {
         return jdbc.query("SELECT * FROM items " +
                 (type.isEmpty() ? "" : "WHERE type = " + type), this::rowToItemList);
@@ -55,14 +65,17 @@ public class ItemRepository {
     private List<Item> rowToItemList(ResultSet resultSet) throws SQLException {
         List<Item> items = new ArrayList<>();
         do {
-            Item item = new Item();
-            item.setItemId(resultSet.getInt("id"));
-            item.setCost(resultSet.getInt("cost"));
-            item.setType(resultSet.getString("type"));
-            item.setLink(resultSet.getString("link"));
-
-            items.add(item);
+            items.add(createItem(resultSet));
         } while (resultSet.next());
         return items;
+    }
+
+    private Item createItem(ResultSet resultSet) throws SQLException {
+        Item item = new Item();
+        item.setItemId(resultSet.getInt("id"));
+        item.setCost(resultSet.getInt("cost"));
+        item.setType(resultSet.getString("type"));
+        item.setLink(resultSet.getString("link"));
+        return item;
     }
 }
