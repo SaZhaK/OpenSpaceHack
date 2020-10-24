@@ -23,7 +23,7 @@ public class UserRepository {
     }
 
     public User getUserInfoFromDataBase(String username) throws SQLException {
-        return jdbc.query("SELECT * FROM users WHERE username='" + username + "'", this::rowToUser).get(0);
+        return jdbc.query("SELECT * FROM users WHERE username='" + username + "'", this::rowToUser);
     }
 
     public void insertNoteIntoUsers(User user) {
@@ -54,20 +54,23 @@ public class UserRepository {
         jdbc.update("UPDATE users SET money = " + user.getMoney() + " WHERE id = " + user.getUserId());
     }
 
-    private User rowToUser(ResultSet resultSet, int rowNum)
+    private User rowToUser(ResultSet resultSet)
             throws SQLException {
-        int userId = resultSet.getInt("id");
-        String username = resultSet.getString("username");
-        String password = resultSet.getString("password");
-        String role = resultSet.getString("role");
-        String first_name = resultSet.getString("first_name");
-        String second_name = resultSet.getString("second_name");
-        String last_name = resultSet.getString("last_name");
-        int money = resultSet.getInt("money");
-        return new User(
-                userId, username, password,
-                role, first_name, second_name,
-                last_name, money);
+        if (resultSet.next()) {
+            int userId = resultSet.getInt("id");
+            String username = resultSet.getString("username");
+            String password = resultSet.getString("password");
+            String role = resultSet.getString("role");
+            String first_name = resultSet.getString("first_name");
+            String second_name = resultSet.getString("second_name");
+            String last_name = resultSet.getString("last_name");
+            int money = resultSet.getInt("money");
+            return new User(
+                    userId, username, password,
+                    role, first_name, second_name,
+                    last_name, money);
+        }
+        return new User();
     }
 
     private Set<Integer> rowsToSet(ResultSet resultSet)
@@ -79,11 +82,11 @@ public class UserRepository {
         return set;
     }
 
-    private int getLastId(ResultSet resultSet) throws SQLException {
+    private Integer getLastId(ResultSet resultSet) throws SQLException {
         if (resultSet.next()) {
             return resultSet.getInt("id");
         }
-        throw new SQLException();
+        return -1;
     }
 
 }

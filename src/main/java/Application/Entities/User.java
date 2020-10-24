@@ -38,6 +38,8 @@ public class User {
         this.money = money;
     }
 
+    public User() {};
+
     public void addMoney() {
         this.money += moneyPerBug;
     }
