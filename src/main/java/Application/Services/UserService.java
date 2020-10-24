@@ -90,4 +90,17 @@ public class UserService {
         }
     }
 
+    public void updateUserWallet(User user) {
+        if (user == null) {
+            logger.info("updateUserWallet: user = null");
+            return;
+        }
+        try {
+            userRepository.updateUserWallet(user);
+        } catch (DataAccessException e) {
+            String msg = "error in updateUserWallet: " + e.getMessage() + "\ncaused by: " + e.getCause();
+            logger.info(msg);
+        }
+    }
+
 }

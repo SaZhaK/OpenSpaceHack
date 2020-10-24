@@ -1,5 +1,7 @@
 package Application.Entities;
 
+import Application.Services.UserService;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -40,9 +42,11 @@ public class User {
 
     public void addMoney() {
         this.money += moneyPerBug;
+        new UserService().updateUserWallet(this);
     }
 
     public void spendMoney(int price) {
         this.money -= price;
+        new UserService().updateUserWallet(this);
     }
 }

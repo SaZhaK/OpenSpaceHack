@@ -147,6 +147,7 @@ public class BugRepository {
             bug.setUser(getUserByBug(bug));
             bug.setDate(resultSet.getDate("date"));
             bug.setTime(resultSet.getTime("time").toLocalTime());
+            bug.setStatus(resultSet.getInt("status"));
 
             return bug;
         }

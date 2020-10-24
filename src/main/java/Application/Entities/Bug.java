@@ -13,6 +13,7 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Bug {
+    private int bugId;
     private String testedSystem;
     private Date date;
     private LocalTime time;
@@ -22,4 +23,5 @@ public class Bug {
     private String OSModel;
     private String description;
     private byte[] screenshot; //Admin only
+    private int status;
 }
