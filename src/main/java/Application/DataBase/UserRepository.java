@@ -21,8 +21,7 @@ public class UserRepository {
     }
 
     public User getUserInfoFromDataBase(String username)
-        throws SQLException
-    {
+        throws SQLException {
         return jdbc.query("SELECT * FROM users WHERE username='" + username + "'", this::rowToUser);
     }
 
@@ -34,8 +33,7 @@ public class UserRepository {
     }
 
     public void getBugsWhichThisUserFound(User user)
-        throws SQLException
-    {
+        throws SQLException {
         Set<Integer> userBugs = jdbc.query(
                 "SELECT * FROM user_to_bugs WHERE user_id=" + user.getUserId() +
                 " INNER JOIN bugs ON" + "user_to_bugs.bug_id = bugs.id", this::rowsToSet);
@@ -43,14 +41,12 @@ public class UserRepository {
     }
 
     public Set<Integer> getBugsWhichWereNotProcessed()
-        throws SQLException
-    {
+        throws SQLException {
         return jdbc.query("SELECT * FROM bugs WHERE status=1", this::rowsToSet);
     }
 
     private User rowToUser(ResultSet resultSet)
-            throws SQLException
-    {
+            throws SQLException {
         int userId = resultSet.getInt("id");
         String username = resultSet.getString("username");
         String password = resultSet.getString("password");
@@ -65,8 +61,7 @@ public class UserRepository {
     }
 
     private Set<Integer> rowsToSet(ResultSet resultSet)
-            throws SQLException
-    {
+            throws SQLException {
         Set<Integer> set = new HashSet<>();
         do {
             set.add(resultSet.getInt("id"));

@@ -21,9 +21,7 @@ public class ImageController {
 
     @PostMapping("/upload")
     public @ResponseBody String handleImageUpload(@RequestParam("name") String name,
-                                                  @RequestParam("file") MultipartFile file)
-            throws IOException
-    {
+                                                  @RequestParam("file") MultipartFile file) throws IOException {
         byte[] img = image2ByteArray(file.getOriginalFilename());
         ir.addImage(Arrays.toString(img));
         return ir.getImage();

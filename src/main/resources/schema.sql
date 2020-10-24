@@ -5,7 +5,7 @@ create table if not exists users(
   role                           varchar(256),
   first_name                     varchar(256),
   second_name                    varchar(256),
-  last_name                      varchar(256),
+  last_name                      varchar(256)
 );
 
 create table if not exists user_to_bugs(

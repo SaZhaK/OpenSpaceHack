@@ -20,8 +20,7 @@ public class PetRepository {
     }
 
     public Pet getPetInfoFromDataBase(int ownerId)
-            throws SQLException
-    {
+            throws SQLException {
         return jdbc.query("SELECT * FROM pets WHERE owner='" + ownerId + "'", this::rowToPet);
     }
 
@@ -32,8 +31,7 @@ public class PetRepository {
     }
 
     private Pet rowToPet(ResultSet resultSet)
-            throws SQLException
-    {
+            throws SQLException {
         int id = resultSet.getInt("id");
         int owner = resultSet.getInt("owner");
         String name = resultSet.getString("name");

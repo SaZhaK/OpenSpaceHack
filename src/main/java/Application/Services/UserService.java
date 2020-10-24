@@ -19,7 +19,7 @@ public class UserService {
     @Autowired
     UserRepository userRepository;
 
-    public User getUserInfoFromDataBase(String username) {
+    public User getUser(String username) {
         if (username == null) {
             LOGGER.log(Level.INFO, "getUserInfoFromDataBase: username = null");
             return null;
@@ -33,7 +33,7 @@ public class UserService {
         return null;
     }
 
-    public void insertNoteIntoUsers(User user) {
+    public void createNewUser(User user) {
         if (user == null) {
             LOGGER.log(Level.INFO, "insertNoteIntoUsers: user = null");
             return;
@@ -46,7 +46,7 @@ public class UserService {
         }
     }
 
-    public void getBugsWhichThisUserFound(User user) {
+    public void getUserFoundBugs(User user) {
         if (user == null) {
             LOGGER.log(Level.INFO, "getBugsWhichThisUserFound: user = null");
             return;
@@ -60,7 +60,7 @@ public class UserService {
         }
     }
 
-    public Set<Integer> getBugsWhichWereNotProcessed() {
+    public Set<Integer> getNotProccessedBugs() {
         try {
             return userRepository.getBugsWhichWereNotProcessed();
         } catch (DataAccessException | SQLException e) {
