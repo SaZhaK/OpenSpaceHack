@@ -69,10 +69,11 @@ public class UserRepository {
             String second_name = resultSet.getString("second_name");
             String last_name = resultSet.getString("last_name");
             int money = resultSet.getInt("money");
-            return new User(
-                    userId, username, password,
+            User user = new User(username, password,
                     role, first_name, second_name,
                     last_name, money);
+            user.setUserId(userId);
+            return user;
         }
         return new User();
     }
