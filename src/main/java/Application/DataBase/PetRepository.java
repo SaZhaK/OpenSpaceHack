@@ -1,5 +1,6 @@
 package Application.DataBase;
 
+import Application.Entities.Item;
 import Application.Entities.Pet;
 
 import Application.Entities.User;
@@ -31,6 +32,36 @@ public class PetRepository {
                 pet.getPetRank() + ", " + pet.getFaceId() + ", " + pet.getMouthId() + ", " +
                 pet.getBodyId() + ", " + pet.getArmId() + ", " + pet.getLegId() + ", " +
                 pet.getHatId() + ", " + pet.getBackpackId() + ")");
+    }
+
+    public void wearItem(Pet pet, Item item) {
+        String itemType = item.getType();
+        int itemId = item.getItemId();
+        jdbc.update("UPDATE pets SET " + itemType + " = " + itemId + " WHERE id = " + pet.getPetId());
+        switch (itemType) {
+            case "hat":
+                pet.setHatId(itemId);
+
+                break;
+            case "face":
+                pet.setFaceId(itemId);
+                break;
+            case "mouth":
+                pet.setMouthId(itemId);
+                break;
+            case "body":
+                pet.setBodyId(itemId);
+                break;
+            case "arm":
+                pet.setArmId(itemId);
+                break;
+            case "leg":
+                pet.setLegId(itemId);
+                break;
+            case "backpack":
+                pet.setBackpackId(itemId);
+                break;
+        }
     }
 
     private Pet rowToPet(ResultSet resultSet)
