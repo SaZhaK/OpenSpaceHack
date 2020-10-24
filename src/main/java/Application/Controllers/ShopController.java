@@ -59,6 +59,7 @@ public class ShopController {
             result.put("id", item.getItemId());
             result.put("type", item.getType());
             result.put("cost", item.getCost());
+            result.put("name", item.getName());
         }
 
         return result.toString();
