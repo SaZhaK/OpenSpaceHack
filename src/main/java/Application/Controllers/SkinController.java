@@ -31,7 +31,7 @@ public class SkinController {
     @Autowired
     PetService petService;
 
-    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    @RequestMapping(value = "/skin", method = RequestMethod.POST)
     @ResponseBody
     public String changeSkin(HttpServletRequest request) throws IOException {
         String token = request.getHeader("Authorization").substring(7);
