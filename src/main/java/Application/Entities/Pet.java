@@ -1,12 +1,10 @@
 package Application.Entities;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-@AllArgsConstructor
 public class Pet {
     private int petId;
     private int ownerId;
@@ -14,4 +12,10 @@ public class Pet {
     private int petRank;
     private int hatId;
     private int jacketId;
+
+    public Pet(int ownerId, String petName, int petRank) {
+        this.ownerId = ownerId;
+        this.petName = petName;
+        this.petRank = petRank;
+    }
 }

@@ -39,6 +39,6 @@ public class PetRepository {
         int hat = resultSet.getInt("hat");
         int jacket = resultSet.getInt("jacket");
 
-        return new Pet(id, owner, name, rank, hat, jacket);
+        return new Pet(owner, name, rank);
     }
 }
