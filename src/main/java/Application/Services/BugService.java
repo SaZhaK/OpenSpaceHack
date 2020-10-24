@@ -204,4 +204,14 @@ public class BugService {
         }
         return null;
     }
+
+    public Integer getLastBugReportId() {
+        try {
+            return bugRepository.getLastReportedBugId();
+        } catch (DataAccessException | SQLException e) {
+            String msg = "error in getLastBugReportId: " + e.getMessage() + "\ncaused by: " + e.getCause();
+            logger.info(msg);
+        }
+        return null;
+    }
 }

@@ -35,6 +35,10 @@ public class BugRepository {
         jdbc.update("UPDATE bugs SET status = 0 WHERE id = " + bug.getBugId());
     }
 
+    public Integer getLastReportedBugId() throws SQLException {
+        return jdbc.query("SELECT id FROM bugs ORDER BY id DESC LIMIT 1", this::getLastId);
+    }
+
     public Set<Integer> getAllBugs()
             throws SQLException {
         return getBugsByParam("", "");
@@ -162,5 +166,11 @@ public class BugRepository {
             set.add(resultSet.getInt("id"));
         } while (resultSet.next());
         return set;
+    }
+
+    private Integer getLastId(ResultSet resultSet) throws SQLException {
+        if (resultSet.next())
+            return resultSet.getInt("id");
+        return -1;
     }
 }
