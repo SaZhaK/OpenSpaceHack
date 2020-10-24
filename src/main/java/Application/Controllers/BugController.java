@@ -1,9 +1,11 @@
 package Application.Controllers;
 
 import Application.Entities.Bug;
+import Application.Entities.Comment;
 import Application.Entities.User;
 import Application.JWT.JwtProvider;
 import Application.Services.BugService;
+import Application.Services.CommentService;
 import Application.Services.UserService;
 import io.jsonwebtoken.Claims;
 import org.json.JSONObject;
@@ -17,7 +19,9 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*", exposedHeaders = "Authorization")
@@ -27,6 +31,8 @@ public class BugController {
     UserService userService;
     @Autowired
     BugService bugService;
+    @Autowired
+    CommentService commentService;
 
     @RequestMapping(value = "/report", method = RequestMethod.POST)
     @ResponseBody
@@ -96,6 +102,9 @@ public class BugController {
             result.put("os_model", bug.getOSModel());
             result.put("description", bug.getDescription());
             result.put("screenshot", bug.getScreenshot());
+
+            List<Comment> comments = commentService.getAllCommentsByBugId(bug);
+            result.put("comments", Collections.singleton(comments));
 
             User owner = bug.getUser();
             result.put("username", owner.getUsername());

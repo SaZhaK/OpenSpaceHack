@@ -16,21 +16,23 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.util.Collections;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*", exposedHeaders = "Authorization")
 @Controller
-public class UserController {
+public class SkinController {
+
     @Autowired
     UserService userService;
     @Autowired
-    PetService petService;
-    @Autowired
     ItemService itemService;
+    @Autowired
+    PetService petService;
 
-    @RequestMapping(value = "/me", method = RequestMethod.GET)
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
     @ResponseBody
-    public String getUser(HttpServletRequest request) {
+    public String changeSkin(HttpServletRequest request) throws IOException {
         String token = request.getHeader("Authorization").substring(7);
 
         Claims claims = JwtProvider.getAllClaimsFromToken(token);

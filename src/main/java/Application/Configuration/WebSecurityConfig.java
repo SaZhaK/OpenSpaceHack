@@ -39,15 +39,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/upload/**").permitAll()
                 .antMatchers("/", "/resources/**").permitAll()
                 .antMatchers("/**").hasRole("ADMIN");
-//                .and()
-//                .formLogin()
-//                .loginPage("/login")
-//                .defaultSuccessUrl("/")
-//                .permitAll()
-//                .and()
-//                .logout()
-//                .permitAll()
-//                .logoutSuccessUrl("/");
 
         http.headers().frameOptions().disable();
 

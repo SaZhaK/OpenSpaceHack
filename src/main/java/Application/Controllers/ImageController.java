@@ -3,10 +3,7 @@ package Application.Controllers;
 import Application.DataBase.ImageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.imageio.ImageIO;
@@ -21,11 +18,9 @@ public class ImageController {
     @Autowired
     ImageRepository ir;
 
-    @PostMapping("/upload")
+    @RequestMapping(value = "/upload", method = RequestMethod.POST)
     public @ResponseBody String handleImageUpload(@RequestParam("name") String name,
-                                                  @RequestParam("file") MultipartFile file)
-            throws IOException
-    {
+                                                  @RequestParam("file") MultipartFile file) throws IOException {
         byte[] img = image2ByteArray(file);
         ir.addImage(Arrays.toString(img).replace("[", "").replace("]", ""));
         int idx = 0;
