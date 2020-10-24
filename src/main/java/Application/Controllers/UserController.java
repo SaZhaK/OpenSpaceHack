@@ -22,10 +22,8 @@ public class UserController {
 
     @GetMapping("/me")
     public void getUser(HttpServletRequest request, HttpServletResponse response) {
-        Enumeration<String> headerNames = request.getHeaderNames();
-
-        String username = request.getHeader(headerNames.nextElement());
-        String token = request.getHeader(headerNames.nextElement());
+        String username = request.getHeader("username");
+        String token = request.getHeader("token");
 
         User user = userService.getUserByUsername(username);
 

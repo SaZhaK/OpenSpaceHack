@@ -8,6 +8,8 @@ import java.util.Set;
 @Getter
 @Setter
 public class User {
+    private static final int moneyPerBug = 100;
+
     private int userId;
     private String username;
     private String password;
@@ -32,5 +34,13 @@ public class User {
         this.firstName = firstName;
         this.secondName = secondName;
         this.lastName = lastName;
+    }
+
+    public void addMoney() {
+        this.money += moneyPerBug;
+    }
+
+    public void spendMoney(int price) {
+        this.money -= price;
     }
 }

@@ -28,6 +28,7 @@ public class BugController {
         String description = request.getHeader("description");
 
         User user = userService.getUserByUsername(username);
+        user.addMoney();
 
         bug.setTestedSystem(testedSystem);
         bug.setUser(user);
