@@ -25,8 +25,8 @@ public class CommentRepository {
     }
 
     public void writeComment(Comment comment) {
-        jdbc.update("INSERT INTO comments (user_id, bug_id, text) VALUES ('" +
-                comment.getUserId() + "', '" + comment.getBugId() + "', '" + comment.getText() + "')");
+        jdbc.update("INSERT INTO comments (user_id, bug_id, text) VALUES (" +
+                comment.getUserId() + ", " + comment.getBugId() + ", '" + comment.getText() + "')");
     }
 
     private List<Comment> rowsToArray(ResultSet resultSet) throws SQLException {

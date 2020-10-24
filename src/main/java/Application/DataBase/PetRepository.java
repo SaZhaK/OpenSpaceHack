@@ -27,10 +27,10 @@ public class PetRepository {
 
     public void createNewPet(Pet pet) {
         jdbc.update("INSERT INTO pets (owner, name, rank, face, mouth, body, arm, leg, hat, backpack)" +
-                "VALUES ('" + pet.getOwnerId() + "', '" + pet.getPetName() + "', '" +
-                pet.getPetRank() + "', '" + pet.getFaceId() + "', '" + pet.getMouthId() + "', '" +
-                pet.getBodyId() + "', '" + pet.getArmId() + "', '" + pet.getLegId() + "', '" +
-                pet.getHatId() + "', '" + pet.getBackpackId() + "')");
+                "VALUES (" + pet.getOwnerId() + ", '" + pet.getPetName() + "', " +
+                pet.getPetRank() + ", " + pet.getFaceId() + ", " + pet.getMouthId() + ", " +
+                pet.getBodyId() + ", " + pet.getArmId() + ", " + pet.getLegId() + ", " +
+                pet.getHatId() + ", " + pet.getBackpackId() + ")");
     }
 
     private Pet rowToPet(ResultSet resultSet)

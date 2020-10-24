@@ -28,7 +28,7 @@ public class BugRepository {
 
     public User getUserByBug(Bug bug)
             throws SQLException {
-        return jdbc.query("SELECT * FROM user_to_bugs WHERE bug_id=" + bug.getBugId(), this::rowsToUser);
+        return jdbc.query("SELECT * FROM user_to_bugs WHERE bug_id = " + bug.getBugId(), this::rowsToUser);
     }
 
     public void confirmBugReport(Bug bug) {
@@ -56,22 +56,22 @@ public class BugRepository {
 
     public Set<Integer> getCheckedBugsByBugName(String bugName)
             throws SQLException {
-        return getCheckedBugs("bugName = " + bugName);
+        return getCheckedBugs("bugName = '" + bugName + "'");
     }
 
     public Set<Integer> getCheckedBugsByTestedSystem(String testedSystem)
             throws SQLException {
-        return getCheckedBugs("testedSystem = " + testedSystem);
+        return getCheckedBugs("testedSystem = '" + testedSystem + "'");
     }
 
     public Set<Integer> getCheckedBugsByBetaVersion(String betaVersion)
             throws SQLException {
-        return getCheckedBugs("betaVersion = " + betaVersion);
+        return getCheckedBugs("betaVersion = '" + betaVersion + "'");
     }
 
     public Set<Integer> getCheckedBugsByOSModel(String OSModel)
             throws SQLException {
-        return getCheckedBugs("OSModel = " + OSModel);
+        return getCheckedBugs("OSModel = '" + OSModel + "'");
     }
 
     public Set<Integer> getCheckedBugsByDate(String date)
@@ -81,22 +81,22 @@ public class BugRepository {
 
     public Set<Integer> getUncheckedBugsByBugName(String bugName)
             throws SQLException {
-        return getUncheckedBugs("bugName = " + bugName);
+        return getUncheckedBugs("bugName = '" + bugName + "'");
     }
 
     public Set<Integer> getUncheckedBugsByTestedSystem(String testedSystem)
             throws SQLException {
-        return getUncheckedBugs("testedSystem = " + testedSystem);
+        return getUncheckedBugs("testedSystem = '" + testedSystem + "'");
     }
 
     public Set<Integer> getUncheckedBugsByBetaVersion(String betaVersion)
             throws SQLException {
-        return getUncheckedBugs("betaVersion = " + betaVersion);
+        return getUncheckedBugs("betaVersion = '" + betaVersion + "'");
     }
 
     public Set<Integer> getUncheckedBugsByOSModel(String OSModel)
             throws SQLException {
-        return getUncheckedBugs("OSModel = " + OSModel);
+        return getUncheckedBugs("OSModel = '" + OSModel + "'");
     }
 
     public Set<Integer> getUncheckedBugsByDate(String date)

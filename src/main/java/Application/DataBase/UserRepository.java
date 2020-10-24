@@ -28,15 +28,15 @@ public class UserRepository {
 
     public void insertNoteIntoUsers(User user) {
         jdbc.update("INSERT INTO users (username, password, role, first_name, second_name, last_name, money)" +
-                "VALUES (" + user.getUsername() + ", " + user.getPassword() + ", " +
-                user.getRole() + ", " + user.getFirstName() + ", " + user.getSecondName() + ", " +
-                user.getLastName() + ", " + user.getMoney() + ")");
+                "VALUES ('" + user.getUsername() + "', '" + user.getPassword() + "', '" +
+                user.getRole() + "', '" + user.getFirstName() + "', '" + user.getSecondName() + "', '" +
+                user.getLastName() + "', " + user.getMoney() + ")");
     }
 
     public void getBugsWhichThisUserFound(User user)
         throws SQLException {
         Set<Integer> userBugs = jdbc.query(
-                "SELECT * FROM user_to_bugs WHERE user_id=" + user.getUserId(), this::rowsToSet);
+                "SELECT * FROM user_to_bugs WHERE user_id = " + user.getUserId(), this::rowsToSet);
         user.setBugs(userBugs);
     }
 
@@ -44,10 +44,10 @@ public class UserRepository {
             throws SQLException {
         jdbc.update("INSERT INTO bugs (bugName, description, testedSystem, betaVersion, OSModel, date, time, " +
                 "screenshot, status)" + "VALUES ('" + bug.getBugName() + "', '" + bug.getDescription() + "', '" +
-                bug.getTestedSystem() + "', '" + bug.getBetaVersion() + "', '" + bug.getOSModel() + "', '" +
-                bug.getDate() + "', '" + bug.getTime() + "', '" + Arrays.toString(bug.getScreenshot()) + "', '1')");
+                bug.getTestedSystem() + "', '" + bug.getBetaVersion() + "', '" + bug.getOSModel() + "', " +
+                bug.getDate() + ", " + bug.getTime() + ", '" + Arrays.toString(bug.getScreenshot()) + "', 1)");
         Integer bugId = jdbc.query("SELECT id FROM bugs ORDER BY id DESC LIMIT 1", this::getLastId);
-        jdbc.update("INSERT INTO user_to_bugs (user_id, bug_id) VALUES ('" + bug.getUser() + "', '" + bugId + "')");
+        jdbc.update("INSERT INTO user_to_bugs (user_id, bug_id) VALUES (" + bug.getUser() + ", " + bugId + ")");
     }
 
     public void updateUserWallet(User user) {

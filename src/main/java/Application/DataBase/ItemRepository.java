@@ -51,7 +51,7 @@ public class ItemRepository {
 
     private List<Item> getItems(String type) {
         return jdbc.query("SELECT * FROM items " +
-                (type.isEmpty() ? "" : "WHERE type = " + type), this::rowToItemList);
+                (type.isEmpty() ? "" : "WHERE type = '" + type + "'"), this::rowToItemList);
     }
 
     private List<Integer> rowToIntegerList(ResultSet resultSet) throws SQLException {
