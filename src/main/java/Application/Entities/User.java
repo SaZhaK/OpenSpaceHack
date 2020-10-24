@@ -20,15 +20,13 @@ public class User {
     private Set<Integer> bugs;
     private int money;
 
-    public User(int userId,
-                String username,
+    public User(String username,
                 String password,
                 String role,
                 String firstName,
                 String secondName,
                 String lastName,
                 int money) {
-        this.userId = userId;
         this.username = username;
         this.password = password;
         this.role = role;

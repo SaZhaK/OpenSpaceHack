@@ -86,7 +86,6 @@ public class LoginController {
         }
         JSONObject jsonObject = new JSONObject(data.toString());
 
-        int userId = Integer.parseInt(jsonObject.get("user_id").toString());
         String username = jsonObject.get("username").toString();
         String password = jsonObject.get("password").toString();
         String firstName = jsonObject.get("first_name").toString();
@@ -94,8 +93,12 @@ public class LoginController {
         String lastName = jsonObject.get("last_name").toString();
         String petName = jsonObject.get("pet_name").toString();
 
-        User user = new User(userId, username, password, "USER", firstName, secondName, lastName, 100);
-        Pet pet = new Pet(userId, petName, 1);
+        User user = new User(username, password, "USER", firstName, secondName, lastName, 100);
+        userService.createNewUser(user);
+        int userId = userService.getLastUserId();
+        user.setUserId(userId);
+        Pet pet = new Pet(user.getUserId(), petName, 1);
+        petService.createNewPet(pet);
 
         String token = JwtProvider.generateToken(username, password);
         response.setHeader("Authorization", "Bearer " + token);
