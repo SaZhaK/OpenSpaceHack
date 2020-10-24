@@ -69,4 +69,18 @@ public class ItemService {
             logger.info(msg);
         }
     }
+
+    public Item getItemById(int itemId) {
+        if (itemId > 0) {
+            try {
+                return itemRepository.getItemById(itemId);
+            }
+            catch (DataAccessException | SQLException e) {
+                String msg = "error in getItemById: " + e.getMessage() + "\ncaused by: " + e.getCause();
+                logger.info(msg);
+            }
+        } else
+            logger.info("getItemById: itemId <= 0");
+        return null;
+    }
 }

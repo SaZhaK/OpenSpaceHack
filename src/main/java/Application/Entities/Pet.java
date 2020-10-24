@@ -10,8 +10,13 @@ public class Pet {
     private int ownerId;
     private String petName;
     private int petRank;
+    // clothes
+    private int faceId;
+    private int bodyId;
+    private int mouthId;
+    private int legId;
     private int hatId;
-    private int jacketId;
+    private int backpackId;
 
     public Pet(int ownerId, String petName, int petRank) {
         this.ownerId = ownerId;
