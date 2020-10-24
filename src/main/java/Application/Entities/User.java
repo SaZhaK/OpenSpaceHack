@@ -26,7 +26,8 @@ public class User {
                 String role,
                 String firstName,
                 String secondName,
-                String lastName) {
+                String lastName,
+                int money) {
         this.userId = userId;
         this.username = username;
         this.password = password;
@@ -34,6 +35,7 @@ public class User {
         this.firstName = firstName;
         this.secondName = secondName;
         this.lastName = lastName;
+        this.money = money;
     }
 
     public void addMoney() {

@@ -5,7 +5,8 @@ create table if not exists users(
   role                           varchar(256),
   first_name                     varchar(256),
   second_name                    varchar(256),
-  last_name                      varchar(256)
+  last_name                      varchar(256),
+  money                          integer
 );
 
 create table if not exists user_to_bugs(
@@ -15,10 +16,16 @@ create table if not exists user_to_bugs(
 );
 
 create table if not exists bugs(
-  id          serial,
-  description varchar,
-  screenshot  blob, -- lo?
-  status      integer -- 0 - обработано; 1 - необработано
+  id           serial,
+  bugName      varchar(256),
+  description  varchar,
+  testedSystem varchar,
+  betaVersion  varchar(256),
+  OSModel      varchar(512),
+  screenshot   blob, -- lo?
+  date         date,
+  time         time,
+  status       integer -- 0 - обработано; 1 - необработано
 );
 
 create table if not exists pets(
@@ -35,9 +42,49 @@ create table if not exists hats(
   image blob --lo
 );
 
-create table if not exists jackets(
+create table if not exists heads(
   id    serial,
   image blob --lo
+);
+
+create table if not exists faces(
+  id    serial,
+  image blob --lo
+);
+
+create table if not exists arms(
+  id    serial,
+  image blob --lo
+);
+
+create table if not exists backpacks(
+  id    serial,
+  image blob --lo
+);
+
+create table if not exists bodies(
+    id    serial,
+    image blob --lo
+);
+
+create table if not exists legs(
+    id    serial,
+    image blob --lo
+);
+
+create table if not exists skin(
+    id    serial,
+    image blob --lo
+);
+
+create table if not exists stickers(
+    id    serial,
+    image blob --lo
+);
+
+create table if not exists backgrounds(
+    id    serial,
+    image blob --lo
 );
 
 create table if not exists images(
