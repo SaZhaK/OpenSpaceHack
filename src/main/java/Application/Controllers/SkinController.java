@@ -1,5 +1,6 @@
 package Application.Controllers;
 
+import Application.Entities.Item;
 import Application.Entities.Pet;
 import Application.Entities.User;
 import Application.JWT.JwtProvider;
@@ -65,6 +66,16 @@ public class SkinController {
                 response.put("pet_hat", pet.getHatId());
                 response.put("pet_backpack", pet.getBackpackId());
             }
+
+            StringBuilder data = new StringBuilder();
+            String line;
+            while ((line = request.getReader().readLine()) != null) {
+                data.append(line);
+            }
+            JSONObject jsonObject = new JSONObject(data.toString());
+
+            Item item = itemService.getItemById(Integer.parseInt(jsonObject.get("id").toString()));
+            petService.wearItem(pet, item);
         }
 
         return response.toString();
