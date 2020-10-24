@@ -40,61 +40,65 @@ create table if not exists pets(
   owner  integer,
   name   varchar(256),
   rank   integer,
-  hat    integer,
-  jacket integer
+  face integer,
+  body integer,
+  leg integer,
+  hat integer,
+  backpack integer
 );
 
+create table if not exists user_to_items(
+  id serial,
+  user_id integer,
+  item_id integer
+);
+
+create table if not exists items(
+  id serial,
+  type varchar(256),
+  link varchar(256),
+  cost integer
+);
+
+/*
 create table if not exists hats(
   id    serial,
-  image blob --lo
-);
-
-create table if not exists heads(
-  id    serial,
+  wear  int, -- 0 - false; 1 - true
   image blob --lo
 );
 
 create table if not exists faces(
   id    serial,
+  wear  int, -- 0 - false; 1 - true
   image blob --lo
 );
 
-create table if not exists arms(
+create table if not exists mouths(
   id    serial,
-  image blob --lo
+  wear  int,
+  image blob
 );
 
 create table if not exists backpacks(
   id    serial,
+  wear  int, -- 0 - false; 1 - true
   image blob --lo
 );
 
 create table if not exists bodies(
     id    serial,
+    wear  int, -- 0 - false; 1 - true
     image blob --lo
 );
 
 create table if not exists legs(
     id    serial,
-    image blob --lo
-);
-
-create table if not exists skin(
-    id    serial,
-    image blob --lo
-);
-
-create table if not exists stickers(
-    id    serial,
-    image blob --lo
-);
-
-create table if not exists backgrounds(
-    id    serial,
+    wear  int, -- 0 - false; 1 - true
     image blob --lo
 );
 
 create table if not exists images(
   id serial,
+  wear  int, -- 0 - false; 1 - true
   image varchar
-);
+);*/
