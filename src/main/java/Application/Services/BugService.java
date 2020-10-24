@@ -48,6 +48,19 @@ public class BugService {
         return null;
     }
 
+    public void confirmBugReport(Bug bug) {
+        if (bug == null) {
+            logger.info("confirmBugReport: bug = null");
+            return;
+        }
+        try {
+            bugRepository.confirmBugReport(bug);
+        } catch (DataAccessException e) {
+            String msg = "error in confirmBugReport: " + e.getMessage() + "\ncaused by: " + e.getCause();
+            logger.info(msg);
+        }
+    }
+
     public Set<Integer> getAllBugs()
             throws SQLException {
         try {

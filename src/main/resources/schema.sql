@@ -28,6 +28,13 @@ create table if not exists bugs(
   status       integer -- 0 - обработано; 1 - необработано
 );
 
+create table if not exists messages(
+  id      serial,
+  user_id integer,
+  text    varchar,
+  time    timestamp
+);
+
 create table if not exists pets(
   id     serial,
   owner  integer,
