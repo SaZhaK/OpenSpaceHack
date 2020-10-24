@@ -28,22 +28,21 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/console/**").permitAll()
                 .antMatchers("/login/**").permitAll()
                 .antMatchers("/me/**").permitAll()
-                .antMatchers("/app/**").permitAll()
                 .antMatchers("/ws/**").permitAll()
                 .antMatchers("/css/**").permitAll()
                 .antMatchers("/js/**").permitAll()
                 .antMatchers("/images/**").permitAll()
                 .antMatchers("/", "/resources/**").permitAll()
-                .antMatchers("/**").hasRole("ADMIN")
-                .and()
-                .formLogin()
-                .loginPage("/login")
-                .defaultSuccessUrl("/")
-                .permitAll()
-                .and()
-                .logout()
-                .permitAll()
-                .logoutSuccessUrl("/");
+                .antMatchers("/**").hasRole("ADMIN");
+//                .and()
+//                .formLogin()
+//                .loginPage("/login")
+//                .defaultSuccessUrl("/")
+//                .permitAll()
+//                .and()
+//                .logout()
+//                .permitAll()
+//                .logoutSuccessUrl("/");
 
         http.headers().frameOptions().disable();
 

@@ -22,9 +22,14 @@ public class LoginController {
     @Autowired
     PetService petService;
 
+    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    @ResponseBody
+    public void getLogin(HttpServletRequest request, HttpServletResponse response) {}
+
+
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     @ResponseBody
-    public String getLogin(HttpServletRequest request, HttpServletResponse response) {
+    public String postLogin(HttpServletRequest request, HttpServletResponse response) {
         String username = request.getHeader("username");
         String password = request.getHeader("password");
 
