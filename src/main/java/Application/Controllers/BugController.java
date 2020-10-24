@@ -20,7 +20,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
-@CrossOrigin
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @Controller
 public class BugController {
     @Autowired

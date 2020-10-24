@@ -14,7 +14,7 @@ import java.awt.image.BufferedImage;
 import java.io.*;
 import java.util.Arrays;
 
-@CrossOrigin
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @Controller
 public class ImageController {
 
