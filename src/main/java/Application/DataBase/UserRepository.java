@@ -50,6 +50,10 @@ public class UserRepository {
         jdbc.update("INSERT INTO user_to_bugs (user_id, bug_id) VALUES (" + bug.getUser().getUserId() + ", " + bugId + ")");
     }
 
+    public Integer getLastUserId() throws SQLException {
+        return jdbc.query("SELECT id FROM users ORDER BY id DESC LIMIT 1", this::getLastId);
+    }
+
     public void updateUserWallet(User user) {
         jdbc.update("UPDATE users SET money = " + user.getMoney() + " WHERE id = " + user.getUserId());
     }

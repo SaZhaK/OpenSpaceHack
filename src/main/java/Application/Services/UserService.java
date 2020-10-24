@@ -37,6 +37,16 @@ public class UserService {
         return null;
     }
 
+    public Integer getLastUserId() {
+        try {
+            return userRepository.getLastUserId();
+        } catch (DataAccessException | SQLException e) {
+            String msg = "error in getLastUserId: " + e.getMessage() + "\ncaused by: " + e.getCause();
+            logger.info(msg);
+        }
+        return -1;
+    }
+
     public void getBugsWhichThisUserFound(User user) {
         if (user == null) {
             logger.info("getBugsWhichThisUserFound: user = null");
