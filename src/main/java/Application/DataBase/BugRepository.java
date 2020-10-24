@@ -76,7 +76,7 @@ public class BugRepository {
 
     public Set<Integer> getCheckedBugsByDate(String date)
             throws SQLException {
-        return getCheckedBugs("date = " + date);
+        return getCheckedBugs("date = '" + date + "'");
     }
 
     public Set<Integer> getUncheckedBugsByBugName(String bugName)
@@ -101,7 +101,7 @@ public class BugRepository {
 
     public Set<Integer> getUncheckedBugsByDate(String date)
             throws SQLException {
-        return getUncheckedBugs("date = " + date);
+        return getUncheckedBugs("date = '" + date + "'");
     }
 
     private Set<Integer> getUncheckedBugs(String param)

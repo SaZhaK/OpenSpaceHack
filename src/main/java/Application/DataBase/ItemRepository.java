@@ -75,7 +75,7 @@ public class ItemRepository {
         item.setItemId(resultSet.getInt("id"));
         item.setCost(resultSet.getInt("cost"));
         item.setType(resultSet.getString("type"));
-        item.setLink(resultSet.getString("link"));
+        item.setName(resultSet.getString("name"));
         return item;
     }
 }

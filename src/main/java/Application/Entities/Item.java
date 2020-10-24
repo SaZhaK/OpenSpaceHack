@@ -10,6 +10,6 @@ import lombok.Setter;
 public class Item {
     private int itemId;
     private String type;
-    private String link;
+    private String name;
     private int cost;
 }
