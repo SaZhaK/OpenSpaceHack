@@ -3,6 +3,7 @@ package Application.Controllers;
 import Application.Entities.Pet;
 import Application.Entities.User;
 import Application.JWT.JwtProvider;
+import Application.Services.ItemService;
 import Application.Services.PetService;
 import Application.Services.UserService;
 import org.json.JSONObject;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Collections;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*", exposedHeaders="Authorization")
 @Controller
@@ -24,6 +26,8 @@ public class LoginController {
     UserService userService;
     @Autowired
     PetService petService;
+    @Autowired
+    ItemService itemService;
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     @ResponseBody
@@ -64,6 +68,8 @@ public class LoginController {
             result.put("second_name", user.getSecondName());
             result.put("last_name", user.getLastName());
             result.put("money", String.valueOf(user.getMoney()));
+
+            result.put("items", Collections.singleton(itemService.getUserItems(user)));
 
             Pet pet = petService.getUserPet(user);
             if (pet != null) {

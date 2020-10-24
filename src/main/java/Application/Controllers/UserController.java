@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Collections;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*", exposedHeaders="Authorization")
 @Controller
@@ -47,7 +48,7 @@ public class UserController {
             response.put("last_name", user.getLastName());
             response.put("money", String.valueOf(user.getMoney()));
 
-            response.put("items", itemService.getUserItems(user));
+            response.put("items", Collections.singleton(itemService.getUserItems(user)));
 
             Pet pet = petService.getUserPet(user);
             if (pet != null) {
