@@ -5,7 +5,7 @@ import Application.Entities.User;
 import Application.Services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -41,5 +41,11 @@ public class BugController {
         //Date date;
         //LocalTime time;
         //byte[] screenshot;
+    }
+
+
+    @RequestMapping(value = "/report/{id}", method = RequestMethod.GET)
+    @ResponseBody
+    public void getBugList(@PathVariable("id") String id, HttpServletRequest request, HttpServletResponse response) {
     }
 }
