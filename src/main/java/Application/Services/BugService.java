@@ -16,7 +16,7 @@ public class BugService {
     @Autowired
     BugRepository bugRepository;
 
-    public Bug getBugById(int bugId) throws SQLException {
+    public Bug getBugById(int bugId) {
         if (bugId <= 0) {
             logger.info("getBugById: bugId <= 0");
             return null;
