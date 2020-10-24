@@ -31,6 +31,9 @@ public class BugRepository {
         return jdbc.query("SELECT * FROM user_to_bugs WHERE bug_id=" + bug.getBugId(), this::rowsToUser);
     }
 
+    public void confirmBugReport(Bug bug) {
+        jdbc.update("UPDATE bugs SET status = 0 WHERE id = " + bug.getBugId());
+    }
 
     public Set<Integer> getAllBugs()
             throws SQLException {
