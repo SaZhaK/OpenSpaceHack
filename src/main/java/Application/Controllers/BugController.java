@@ -3,7 +3,9 @@ package Application.Controllers;
 import Application.Entities.Bug;
 import Application.Entities.User;
 import Application.JWT.JwtProvider;
+import Application.Services.BugService;
 import Application.Services.UserService;
+import io.jsonwebtoken.Claims;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,12 +16,18 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Controller
 public class BugController {
-
     @Autowired
     UserService userService;
+    @Autowired
+    BugService bugService;
 
     @RequestMapping(value = "/report", method = RequestMethod.POST)
     public void reportBug(HttpServletRequest request, HttpServletResponse response) {
@@ -34,6 +42,7 @@ public class BugController {
 
         User user = userService.getUserByUsername(username);
         user.addMoney();
+        userService.updateUserWallet(user);
 
         bug.setTestedSystem(testedSystem);
         bug.setUser(user);
@@ -51,13 +60,14 @@ public class BugController {
 
     @RequestMapping(value = "/report/{id}", method = RequestMethod.GET)
     @ResponseBody
-    public String getBugList(@PathVariable("id") String id, HttpServletRequest request, HttpServletResponse response) {
+    public String getBug(@PathVariable("id") String id, HttpServletRequest request) {
         String token = request.getHeader("Authorization").substring(7);
 
         JSONObject result = new JSONObject();
 
         if (JwtProvider.validateToken(token)) {
-            Bug bug = new Bug();
+            Bug bug = bugService.getBugById(Integer.parseInt(id));
+
             result.put("bug_name", bug.getBugName());
             result.put("date", bug.getDate().toString());
             result.put("time", bug.getTime().toString());
@@ -71,6 +81,42 @@ public class BugController {
             result.put("user_first_name", owner.getFirstName());
             result.put("user_second_name", owner.getSecondName());
             result.put("user_last_name", owner.getLastName());
+        }
+
+        return result.toString();
+    }
+
+    @RequestMapping(value = "/reports", method = RequestMethod.GET)
+    public String getBugList(HttpServletRequest request) throws SQLException {
+        String token = request.getHeader("Authorization").substring(7);
+        String user = request.getParameter("user");
+        String verified = request.getParameter("verified");
+
+        JSONObject result = new JSONObject();
+
+        if (JwtProvider.validateToken(token)) {
+            Claims claims = JwtProvider.getAllClaimsFromToken(token);
+            String username = claims.getSubject();
+            User currentUser = userService.getUserByUsername(username);
+
+            Set<Integer> allBugs = bugService.getAllBugs();
+            Set<Integer> bugs = new HashSet<>();
+
+            for (Integer id : allBugs) {
+                Bug bug = bugService.getBugById(id);
+                if (currentUser != null && verified != null &&
+                        bug.getUser().getUserId() == currentUser.getUserId() && bug.getStatus() == 0) {
+                    bugs.add(id);
+                } else if (currentUser == null && verified != null && bug.getStatus() == 0) {
+                    bugs.add(id);
+                } else if (currentUser != null && verified == null && bug.getUser().getUserId() == currentUser.getUserId()) {
+                    bugs.add(id);
+                } else if (currentUser == null && verified != null) {
+                    bugs.add(id);
+                }
+            }
+
+            result.put("bugs", bugs.toArray());
         }
 
         return result.toString();

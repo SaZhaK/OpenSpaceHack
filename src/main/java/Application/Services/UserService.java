@@ -102,5 +102,4 @@ public class UserService {
             logger.info(msg);
         }
     }
-
 }
