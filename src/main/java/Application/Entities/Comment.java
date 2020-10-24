@@ -4,14 +4,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalTime;
-
 @Getter
 @Setter
 @NoArgsConstructor
-public class Message {
-    private int messageId;
+public class Comment {
+    private int commentId;
     private String text;
     private int userId;
-    private LocalTime time;
+    private int bugId;
 }

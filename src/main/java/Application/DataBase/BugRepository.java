@@ -128,10 +128,11 @@ public class BugRepository {
         if (resultSet.next()) {
             return new UserService().getUserByUsername(resultSet.getString("username"));
         }
-        return null;
+        return new User();
     }
 
     private Bug rowToBug(ResultSet resultSet) throws SQLException {
+        Bug bug = new Bug();
         if (resultSet.next()) {
             String[] tmp = resultSet.getString("screenshot").split(", ");
             byte[] img = new byte[tmp.length];
@@ -139,7 +140,6 @@ public class BugRepository {
             for (String imgByte : tmp)
                 img[idx++] = Byte.parseByte(imgByte);
 
-            Bug bug = new Bug();
             bug.setBugId(resultSet.getInt("id"));
             bug.setBetaVersion(resultSet.getString("betaVersion"));
             bug.setBugName(resultSet.getString("bugName"));
@@ -151,10 +151,8 @@ public class BugRepository {
             bug.setDate(resultSet.getDate("date"));
             bug.setTime(resultSet.getTime("time").toLocalTime());
             bug.setStatus(resultSet.getInt("status"));
-
-            return bug;
         }
-        return null;
+        return bug;
     }
 
     private Set<Integer> rowsToSet(ResultSet resultSet)

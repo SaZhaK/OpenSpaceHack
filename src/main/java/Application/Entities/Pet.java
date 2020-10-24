@@ -18,4 +18,6 @@ public class Pet {
         this.petName = petName;
         this.petRank = petRank;
     }
+
+    public Pet(){};
 }
