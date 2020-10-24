@@ -17,7 +17,6 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -45,7 +44,7 @@ public class BugController {
             result = new JSONObject(data.toString());
 
             Bug bug = new Bug();
-            String testedSystem = result.get("testedSystem").toString();
+            String testedSystem = result.get("tested_system").toString();
             String username = result.get("username").toString();
             String bugName = result.get("bug_name").toString();
             String betaVersion = result.get("beta_version").toString();

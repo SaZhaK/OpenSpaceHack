@@ -47,15 +47,15 @@ public class LoginController {
 
         String token = null;
         if (user != null &&
-                user.getUsername().equals(username) &&
-                user.getPassword().equals(password)) {
+                user.getUsername() != null && user.getUsername().equals(username) &&
+                user.getPassword() != null && user.getPassword().equals(password)) {
             token = JwtProvider.generateToken(username, password);
             response.setHeader("Authorization", "Bearer " + token);
         }
 
         JSONObject result = new JSONObject();
 
-        if (user != null && JwtProvider.validateToken(token)) {
+        if (user != null && token != null && JwtProvider.validateToken(token)) {
             result.put("id", String.valueOf(user.getUserId()));
             result.put("username", user.getUsername());
             result.put("password", user.getPassword());
@@ -86,16 +86,15 @@ public class LoginController {
         }
         JSONObject jsonObject = new JSONObject(data.toString());
 
-        int userId = Integer.parseInt(jsonObject.get("userId").toString());
-        String username = jsonObject.get("userId").toString();
-        String password = jsonObject.get("userId").toString();
-        String role = jsonObject.get("userId").toString();
-        String firstName = jsonObject.get("userId").toString();
-        String secondName = jsonObject.get("userId").toString();
-        String lastName = jsonObject.get("userId").toString();
-        String petName = jsonObject.get("userId").toString();
+        int userId = Integer.parseInt(jsonObject.get("user_id").toString());
+        String username = jsonObject.get("username").toString();
+        String password = jsonObject.get("password").toString();
+        String firstName = jsonObject.get("first_name").toString();
+        String secondName = jsonObject.get("second_name").toString();
+        String lastName = jsonObject.get("last_name").toString();
+        String petName = jsonObject.get("pet_name").toString();
 
-        User user = new User(userId, username, password, role, firstName, secondName, lastName, 100);
+        User user = new User(userId, username, password, "USER", firstName, secondName, lastName, 100);
         Pet pet = new Pet(userId, petName, 1);
 
         String token = JwtProvider.generateToken(username, password);
