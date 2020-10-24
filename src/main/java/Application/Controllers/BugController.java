@@ -18,6 +18,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.time.LocalTime;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -30,7 +32,7 @@ public class BugController {
 
     @RequestMapping(value = "/report", method = RequestMethod.POST)
     @ResponseBody
-    public String reportBug(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public String reportBug(HttpServletRequest request, HttpServletResponse response) throws IOException, SQLException {
         StringBuilder data = new StringBuilder();
         String line;
         while ((line = request.getReader().readLine()) != null) {
@@ -45,10 +47,14 @@ public class BugController {
         String betaVersion = jsonObject.get("beta_version").toString();
         String OSModel = jsonObject.get("os_model").toString();
         String description = jsonObject.get("description").toString();
+        String date = jsonObject.get("date").toString();
+        String time = jsonObject.get("time").toString();
+        String screenshot = jsonObject.get("screenshot").toString();
 
         User user = userService.getUserByUsername(username);
         user.addMoney();
         userService.updateUserWallet(user);
+        userService.addReportedBug2DataBase(bug);
 
         bug.setTestedSystem(testedSystem);
         bug.setUser(user);
@@ -56,11 +62,9 @@ public class BugController {
         bug.setBetaVersion(betaVersion);
         bug.setOSModel(OSModel);
         bug.setDescription(description);
-
-        //TODO
-        //Date date;
-        //LocalTime time;
-        //byte[] screenshot;
+        bug.setDate(new Date(date));
+        bug.setTime(LocalTime.parse(time));
+        bug.setScreenshot(screenshot.getBytes());
 
         return jsonObject.toString();
     }
@@ -86,9 +90,7 @@ public class BugController {
             result.put("screenshot", bug.getScreenshot());
 
             User owner = bug.getUser();
-            result.put("user_first_name", owner.getFirstName());
-            result.put("user_second_name", owner.getSecondName());
-            result.put("user_last_name", owner.getLastName());
+            result.put("username", owner.getUsername());
         }
 
         return result.toString();
