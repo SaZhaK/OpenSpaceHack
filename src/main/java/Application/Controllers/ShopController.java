@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
@@ -29,6 +30,7 @@ public class ShopController {
     UserService userService;
 
     @RequestMapping(value = "/buy", method = RequestMethod.POST)
+    @ResponseBody
     public String buy(HttpServletRequest request) throws IOException {
         String token = request.getHeader("Authorization").substring(7);
         JSONObject result = new JSONObject();
