@@ -152,7 +152,7 @@ public class BugRepository {
             bug.setTestedSystem(resultSet.getString("testedSystem"));
             bug.setScreenshot(img);
             bug.setUser(getUserByBug(bug));
-            bug.setDate(resultSet.getDate("date"));
+            bug.setDate(resultSet.getDate("date").toLocalDate());
             bug.setTime(resultSet.getTime("time").toLocalTime());
             bug.setStatus(resultSet.getInt("status"));
         }

@@ -44,10 +44,10 @@ public class UserRepository {
             throws SQLException {
         jdbc.update("INSERT INTO bugs (bugName, description, testedSystem, betaVersion, OSModel, date, time, " +
                 "screenshot, status)" + "VALUES ('" + bug.getBugName() + "', '" + bug.getDescription() + "', '" +
-                bug.getTestedSystem() + "', '" + bug.getBetaVersion() + "', '" + bug.getOSModel() + "', " +
-                bug.getDate() + ", " + bug.getTime() + ", '" + Arrays.toString(bug.getScreenshot()) + "', 1)");
+                bug.getTestedSystem() + "', '" + bug.getBetaVersion() + "', '" + bug.getOSModel() + "', '" +
+                bug.getDate() + "', '" + bug.getTime() + "', '" + Arrays.toString(bug.getScreenshot()) + "', 1)");
         Integer bugId = jdbc.query("SELECT id FROM bugs ORDER BY id DESC LIMIT 1", this::getLastId);
-        jdbc.update("INSERT INTO user_to_bugs (user_id, bug_id) VALUES (" + bug.getUser() + ", " + bugId + ")");
+        jdbc.update("INSERT INTO user_to_bugs (user_id, bug_id) VALUES (" + bug.getUser().getUserId() + ", " + bugId + ")");
     }
 
     public void updateUserWallet(User user) {

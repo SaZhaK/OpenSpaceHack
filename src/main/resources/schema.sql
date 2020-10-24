@@ -10,9 +10,9 @@ create table if not exists users(
 );
 
 create table if not exists user_to_bugs(
-  id      serial;
-  user_id integer;
-  bug_id  integer;
+  id      serial,
+  user_id integer,
+  bug_id  integer
 );
 
 create table if not exists bugs(
@@ -22,7 +22,7 @@ create table if not exists bugs(
   testedSystem varchar,
   betaVersion  varchar(256),
   OSModel      varchar(512),
-  screenshot   blob, -- lo?
+  screenshot   varchar, -- lo?
   date         date,
   time         time,
   status       integer -- 0 - обработано; 1 - необработано

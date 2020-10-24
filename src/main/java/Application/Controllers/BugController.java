@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -63,7 +65,7 @@ public class BugController {
             bug.setBetaVersion(betaVersion);
             bug.setOSModel(OSModel);
             bug.setDescription(description);
-            bug.setDate(new Date(date));
+            bug.setDate(LocalDate.parse(date, DateTimeFormatter.ofPattern("dd.MM.yyyy")));
             bug.setTime(LocalTime.parse(time));
             bug.setScreenshot(screenshot.getBytes());
 

@@ -65,13 +65,11 @@ public class LoginController {
             result.put("last_name", user.getLastName());
             result.put("money", String.valueOf(user.getMoney()));
 
-            Pet pet = petService.getPet(user.getUserId());
+            Pet pet = petService.getUserPet(user);
             if (pet != null) {
                 result.put("pet_id", String.valueOf(pet.getPetId()));
                 result.put("pet_name", pet.getPetName());
                 result.put("pet_rank", String.valueOf(pet.getPetRank()));
-                result.put("pet_hat", String.valueOf(pet.getHatId()));
-                result.put("pet_jacket", String.valueOf(pet.getJacketId()));
             }
         }
 
@@ -116,8 +114,6 @@ public class LoginController {
         result.put("pet_id", String.valueOf(pet.getPetId()));
         result.put("pet_name", pet.getPetName());
         result.put("pet_rank", String.valueOf(pet.getPetRank()));
-        result.put("pet_hat", String.valueOf(pet.getHatId()));
-        result.put("pet_jacket", String.valueOf(pet.getJacketId()));
 
         return result.toString();
     }

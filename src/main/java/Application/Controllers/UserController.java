@@ -44,13 +44,11 @@ public class UserController {
             response.put("last_name", user.getLastName());
             response.put("money", String.valueOf(user.getMoney()));
 
-            Pet pet = petService.getPet(user.getUserId());
+            Pet pet = petService.getUserPet(user);
             if (pet != null) {
                 response.put("pet_id", String.valueOf(pet.getPetId()));
                 response.put("pet_name", pet.getPetName());
                 response.put("pet_rank", String.valueOf(pet.getPetRank()));
-                response.put("pet_hat", String.valueOf(pet.getHatId()));
-                response.put("pet_jacket", String.valueOf(pet.getJacketId()));
             }
         }
 
