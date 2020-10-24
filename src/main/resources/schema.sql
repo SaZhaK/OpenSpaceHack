@@ -43,6 +43,7 @@ create table if not exists pets(
   face integer,
   mouth integer,
   body integer,
+  arm integer,
   leg integer,
   hat integer,
   backpack integer
@@ -57,49 +58,6 @@ create table if not exists user_to_items(
 create table if not exists items(
   id serial,
   type varchar(256),
-  link varchar(256),
+  name varchar(256),
   cost integer
 );
-
-/*
-create table if not exists hats(
-  id    serial,
-  wear  int, -- 0 - false; 1 - true
-  image blob --lo
-);
-
-create table if not exists faces(
-  id    serial,
-  wear  int, -- 0 - false; 1 - true
-  image blob --lo
-);
-
-create table if not exists mouths(
-  id    serial,
-  wear  int,
-  image blob
-);
-
-create table if not exists backpacks(
-  id    serial,
-  wear  int, -- 0 - false; 1 - true
-  image blob --lo
-);
-
-create table if not exists bodies(
-    id    serial,
-    wear  int, -- 0 - false; 1 - true
-    image blob --lo
-);
-
-create table if not exists legs(
-    id    serial,
-    wear  int, -- 0 - false; 1 - true
-    image blob --lo
-);
-
-create table if not exists images(
-  id serial,
-  wear  int, -- 0 - false; 1 - true
-  image varchar
-);*/

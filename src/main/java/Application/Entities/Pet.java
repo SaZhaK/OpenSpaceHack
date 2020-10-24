@@ -13,6 +13,7 @@ public class Pet {
     // clothes
     private int faceId;
     private int bodyId;
+    private int armId;
     private int mouthId;
     private int legId;
     private int hatId;

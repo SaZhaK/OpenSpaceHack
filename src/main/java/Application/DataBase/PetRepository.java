@@ -26,11 +26,11 @@ public class PetRepository {
     }
 
     public void createNewPet(Pet pet) {
-        jdbc.update("INSERT INTO pets (owner, name, rank, face, mouth, body, leg, hat, backpack)" +
+        jdbc.update("INSERT INTO pets (owner, name, rank, face, mouth, body, arm, leg, hat, backpack)" +
                 "VALUES ('" + pet.getOwnerId() + "', '" + pet.getPetName() + "', '" +
                 pet.getPetRank() + "', '" + pet.getFaceId() + "', '" + pet.getMouthId() + "', '" +
-                pet.getBodyId() + "', '" + pet.getLegId() + "', '" + pet.getHatId() + "', '" +
-                pet.getBackpackId() + "')");
+                pet.getBodyId() + "', '" + pet.getArmId() + "', '" + pet.getLegId() + "', '" +
+                pet.getHatId() + "', '" + pet.getBackpackId() + "')");
     }
 
     private Pet rowToPet(ResultSet resultSet)
@@ -45,6 +45,7 @@ public class PetRepository {
             pet.setFaceId(resultSet.getInt("face"));
             pet.setMouthId(resultSet.getInt("mouth"));
             pet.setBodyId(resultSet.getInt("body"));
+            pet.setArmId(resultSet.getInt("arm"));
             pet.setLegId(resultSet.getInt("leg"));
             pet.setBackpackId(resultSet.getInt("backpack"));
         }
