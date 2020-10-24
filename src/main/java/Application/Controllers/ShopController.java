@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*", exposedHeaders = "Authorization")
@@ -59,6 +61,30 @@ public class ShopController {
             result.put("id", item.getItemId());
             result.put("type", item.getType());
             result.put("cost", item.getCost());
+            result.put("name", item.getName());
+        }
+
+        return result.toString();
+    }
+
+    @RequestMapping(value = "/buyItem", method = RequestMethod.POST)
+    public String buyItem(HttpServletRequest request) throws IOException {
+        String token = request.getHeader("Authorization").substring(7);
+        JSONObject result = new JSONObject();
+
+        if (JwtProvider.validateToken(token)) {
+            Claims claims = JwtProvider.getAllClaimsFromToken(token);
+            String username = claims.getSubject();
+            User currentUser = userService.getUserByUsername(username);
+
+            JSONObject jsonObject = new JSONObject(request.getReader().readLine());
+            int id = Integer.parseInt(jsonObject.get("id").toString());
+
+            Item item = itemService.getItemById(id);
+            itemService.addNewItemToUser(currentUser, item);
+            List<Integer> userItems = itemService.getUserItems(currentUser);
+
+            result.put("items", Collections.singletonList(userItems));
         }
 
         return result.toString();

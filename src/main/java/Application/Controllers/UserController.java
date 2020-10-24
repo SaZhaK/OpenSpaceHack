@@ -3,6 +3,7 @@ package Application.Controllers;
 import Application.Entities.Pet;
 import Application.Entities.User;
 import Application.JWT.JwtProvider;
+import Application.Services.ItemService;
 import Application.Services.PetService;
 import Application.Services.UserService;
 import io.jsonwebtoken.Claims;
@@ -23,6 +24,8 @@ public class UserController {
     UserService userService;
     @Autowired
     PetService petService;
+    @Autowired
+    ItemService itemService;
 
     @RequestMapping(value = "/me", method = RequestMethod.GET)
     @ResponseBody
@@ -43,6 +46,8 @@ public class UserController {
             response.put("second_name", user.getSecondName());
             response.put("last_name", user.getLastName());
             response.put("money", String.valueOf(user.getMoney()));
+
+            response.put("items", itemService.getUserItems(user));
 
             Pet pet = petService.getUserPet(user);
             if (pet != null) {
