@@ -52,4 +52,21 @@ public class ItemService {
         }
         return null;
     }
+
+    public void addNewItemToUser(User user, Item item) {
+        if (user == null) {
+            logger.info("addNewItemToUser: user = null");
+            return;
+        }
+        if (item == null) {
+            logger.info("addNewItemToUser: item = null");
+            return;
+        }
+        try {
+            itemRepository.addNewItemToUser(user, item);
+        } catch (DataAccessException e) {
+            String msg = "error in addNewItemToUsere: " + e.getMessage() + "\ncaused by: " + e.getCause();
+            logger.info(msg);
+        }
+    }
 }

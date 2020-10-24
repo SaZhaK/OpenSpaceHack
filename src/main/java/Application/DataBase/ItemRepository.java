@@ -34,6 +34,11 @@ public class ItemRepository {
         return getItems(type);
     }
 
+    public void addNewItemToUser(User user, Item item) {
+        jdbc.update("INSERT INTO user_to_items (user_id, item_id) VALUES (" + user.getUserId()
+                + ", " + item.getItemId() + ")");
+    }
+
     private List<Item> getItems(String type) {
         return jdbc.query("SELECT * FROM items " +
                 (type.isEmpty() ? "" : "WHERE type = " + type), this::rowToItemList);
